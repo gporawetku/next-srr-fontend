@@ -3,7 +3,7 @@
 import { Inter } from "next/font/google";
 
 import "./globals.css";
-import "primereact/resources/themes/lara-light-indigo/theme.css";
+import "primereact/resources/themes/lara-light-indigo/theme.css"; // theme
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { PrimeReactProvider } from "primereact/api";

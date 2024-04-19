@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Avatar } from "primereact/avatar";
 import { Menubar } from "primereact/menubar";
 import { MenuItem } from "primereact/menuitem";
+import { Menu } from 'primereact/menu';
 
 const Navbar = () => {
   const start = <Image width={50} height={40} alt="logo" src="https://primefaces.org/cdn/primereact/images/logo.png" className="mr-2" />;
