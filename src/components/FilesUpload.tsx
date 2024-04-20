@@ -226,8 +226,8 @@ const FilesUpload = ({ oldFiles, setData, setRemove, destination, limitSize = 2,
           return (
             <>
               <div key={file.name}>
-                <div className="row w-full hover:bg-gray-200 g-0" title={file.name}>
-                  <div className="col-md-8">
+                <div className="grid grid-cols-12 w-full hover:bg-gray-200 g-0" title={file.name}>
+                  <div className="col-span-12 md:col-span-8">
                     <div className="flex items-center p-2">
                       {thumbnailForType(file)}
                       <div className="text-left ml-2">
@@ -236,7 +236,7 @@ const FilesUpload = ({ oldFiles, setData, setRemove, destination, limitSize = 2,
                       </div>
                     </div>
                   </div>
-                  <div className="col-md-4">
+                  <div className="col-span-12 md:col-span-4">
                     {file?.status === "completed" && (
                       <button
                         type="button"
@@ -271,8 +271,8 @@ const FilesUpload = ({ oldFiles, setData, setRemove, destination, limitSize = 2,
                   <i className="fa-solid fa-arrow-up-to-line"></i>
                 </div>
                 <div className="text-xl font-bold">คลิกเพื่ออัปโหลดรูปภาพ</div>
-                <div className="text-sm text-new-gray-80">รูปภาพต้องอยู่ในรูปแบบ JPEG JPG PNG และ WEBP</div>
-                <div className="text-sm text-new-gray-80">
+                <div className="text-sm">รูปภาพต้องอยู่ในรูปแบบ JPEG JPG PNG และ WEBP</div>
+                <div className="text-sm">
                   และมีขนาด {limitPixel} ขนาดไม่เกิน {limitSize} MB
                 </div>
               </div>
@@ -317,9 +317,6 @@ const PhotoUpload = ({ oldData, setData, destination, limitSize = 2, limitPixel 
       }
 
       const pixel: any = await ImagePixles(file);
-      console.log(pixel?.pixel !== limitPixel);
-      console.log(pixel?.pixel);
-      console.log(limitPixel);
       if (pixel?.pixel !== limitPixel) {
         MySwal.fire({ ...swalErrorOption, title: "ขนาดภาพไม่ถูกต้อง", text: `ขนาดภาพที่กำหนดคือ ${limitPixel} แต่ภาพของคุณ ${pixel?.pixel}` });
         return;
@@ -396,13 +393,13 @@ const PhotoUpload = ({ oldData, setData, destination, limitSize = 2, limitPixel 
 
   return (
     <>
-      <div className="profile-box position-relative d-flex flex-column align-items-center">
-        <div className="new position-relative overflow-hidden bdrs12 mb20-sm w-100">
+      <div className="profile-box relativeflex flex-col items-center">
+        <div className="relative overflow-hidden mb-2">
           <div className="file-upload-image-box">
             {image && (
               <>
-                <Image width={width} height={height} src={image || ""} alt="profile avatar" className="w100 h-100" loading="lazy" />
-                <div className="file-upload-btn-box d-flex gap-1">
+                <Image width={width} height={height} src={image || ""} alt="profile avatar" loading="lazy" />
+                <div className="file-upload-btn-box flex gap-1">
                   <button type="button" className="file-upload-btn-delete" onClick={deletImage}>
                     <i className="fa-solid fa-trash-can"></i>
                   </button>
@@ -414,24 +411,22 @@ const PhotoUpload = ({ oldData, setData, destination, limitSize = 2, limitPixel 
             )}
           </div>
         </div>
-        <div className="profile-content ml10 ml0-sm w-100 mt-2">
-          <div className="row">
-            <div className="col-7">
-              <p className="text">
-                รูปภาพต้องอยู่ในรูปแบบ JPEG JPG PNG และ WEBP และมีขนาด {limitPixel} ขนาดไม่เกิน {limitSize} MB
-              </p>
-            </div>
-            <div className="col-5 d-flex">
-              <button
-                type="button"
-                className="file-upload-btn-choose"
-                onClick={() => {
-                  handleUpload();
-                }}
-              >
-                เลือกไฟล์
-              </button>
-            </div>
+        <div className="grid grid-cols-12 gap-2">
+          <div className="col-span-6">
+            <p className="text-sm">
+              รูปภาพต้องอยู่ในรูปแบบ JPEG JPG PNG และ WEBP และมีขนาด {limitPixel} ขนาดไม่เกิน {limitSize} MB
+            </p>
+          </div>
+          <div className="col-span-6 flex">
+            <button
+              type="button"
+              className="file-upload-btn-choose"
+              onClick={() => {
+                handleUpload();
+              }}
+            >
+              เลือกไฟล์
+            </button>
           </div>
         </div>
       </div>
@@ -531,13 +526,13 @@ const PhotoFieldArrayUpload = ({ index, list, destination, update, limitSize = 2
 
   return (
     <>
-      <div className="profile-box position-relative d-flex flex-column align-items-center">
-        <div className="new position-relative overflow-hidden bdrs12 mb20-sm w-100">
+      <div className="profile-box relativeflex flex-col items-center">
+        <div className="relative overflow-hidden">
           <div className="file-upload-image-box">
             {image && (
               <>
-                <Image width={width} height={height} src={image || ""} alt="profile avatar" className="w100 h-100" loading="lazy" />
-                <div className="file-upload-btn-box d-flex gap-1">
+                <Image width={width} height={height} src={image || ""} alt="profile avatar" loading="lazy" />
+                <div className="file-upload-btn-box flex gap-1">
                   <button type="button" className="file-upload-btn-delete" onClick={deletImage}>
                     <i className="fa-solid fa-trash-can"></i>
                   </button>
@@ -549,24 +544,22 @@ const PhotoFieldArrayUpload = ({ index, list, destination, update, limitSize = 2
             )}
           </div>
         </div>
-        <div className="profile-content ml10 ml0-sm w-100 mt-2">
-          <div className="row">
-            <div className="col-7">
-              <p className="text">
-                รูปภาพต้องอยู่ในรูปแบบ JPEG JPG PNG และ WEBP และมีขนาด {limitPixel} ขนาดไม่เกิน {limitSize} MB
-              </p>
-            </div>
-            <div className="col-5 d-flex">
-              <button
-                type="button"
-                className="file-upload-btn-choose"
-                onClick={() => {
-                  handleUpload();
-                }}
-              >
-                เลือกไฟล์
-              </button>
-            </div>
+        <div className="grid grid-cols-12 gap-2">
+          <div className="col-span-6">
+            <p className="text-sm">
+              รูปภาพต้องอยู่ในรูปแบบ JPEG JPG PNG และ WEBP และมีขนาด {limitPixel} ขนาดไม่เกิน {limitSize} MB
+            </p>
+          </div>
+          <div className="col-span-6 flex">
+            <button
+              type="button"
+              className="file-upload-btn-choose"
+              onClick={() => {
+                handleUpload();
+              }}
+            >
+              เลือกไฟล์
+            </button>
           </div>
         </div>
       </div>

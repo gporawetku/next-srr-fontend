@@ -1,6 +1,13 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@layer tailwind-base, primereact, tailwind-utilities;
+
+@layer tailwind-base {
+  @tailwind base;
+}
+
+@layer tailwind-utilities {
+  @tailwind components;
+  @tailwind utilities;
+}
 /* 
 :root {
   --foreground-rgb: 0, 0, 0;
@@ -31,3 +38,54 @@ body {
     text-wrap: balance;
   }
 } */
+
+/* --- file upload */
+
+.file-upload-image-box {
+  height: 240px;
+  width: 100%;
+  background: #c0c0c0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+}
+
+.file-upload-btn-choose {
+  color: black;
+  border: 1px solid black;
+  background: transparent;
+  border-radius: 5px;
+  width: 100%;
+  height: 50px;
+}
+
+.file-upload-btn-box {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+}
+
+.file-upload-btn-delete {
+  color: white;
+  border: none;
+  background: #E74C3C;
+  border-radius: 5px;
+  padding: 5px 15px 5px 15px;
+}
+
+.file-upload-btn-delete:hover {
+  background: #B03A2E;
+}
+
+.file-upload-btn-open {
+  color: white;
+  border: none;
+  background: #2ECC71;
+  border-radius: 5px;
+  padding: 5px 15px 5px 15px;
+}
+
+.file-upload-btn-open:hover {
+  background: #239B56;
+}

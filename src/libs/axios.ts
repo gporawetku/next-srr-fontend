@@ -28,10 +28,6 @@ const createAxiosInstance = (baseURL: any) => {
     (error) => {
       if (error.response) {
         const status = error.response.status;
-
-        // if (status === 401 || status === 403) {
-        //   signOut();
-        // }
       }
 
       return Promise.reject(error);
