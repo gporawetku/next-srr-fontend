@@ -1,5 +1,16 @@
 "use client";
 
+import ActionButton from "@/components/common/ActionButton";
+import { Card, Header } from "@/components/Content";
+import { BreadcrumbItemProps } from "@/components/contents/Breadcrumb";
+import FilterHeader from "@/components/FilterHeader";
+import { ImagesBasic } from "@/components/ImagesBasic";
+import { IsLoadingSkeleton } from "@/components/IsLoadingSkeleton";
+import { useDestroyPromotion, useUpdatePromotionSpecialCase } from "@/hooks/mutates/useMutatePromotion";
+import { usePromotions } from "@/hooks/queries/usePromotion";
+import { usePagination } from "@/hooks/usePagination";
+import { ConvertDays } from "@/libs/utils/ConvertDay";
+import { MySwal, swalErrorOption, swlPreConfirmOption } from "@/libs/utils/Swal2Config";
 import { usePathname, useRouter } from "next/navigation";
 import { FilterMatchMode } from "primereact/api";
 import { Column, ColumnProps } from "primereact/column";
@@ -8,24 +19,14 @@ import { InputNumber } from "primereact/inputnumber";
 import { InputSwitch } from "primereact/inputswitch";
 import { Paginator } from "primereact/paginator";
 import { useState } from "react";
-import { MySwal, swalErrorOption, swlPreConfirmOption } from "@/libs/utils/Swal2Config";
-import { BreadcrumbItemProps } from "@/components/contents/Breadcrumb";
-import { usePagination } from "@/hooks/usePagination";
-import ActionButton from "@/components/common/ActionButton";
-import { ImagesBasic } from "@/components/ImagesBasic";
-import { useBanners } from "@/hooks/queries/useBanner";
-import { useDestroyBanner, useUpdateBannerSpecialCase } from "@/hooks/mutates/useMutateBanner";
-import { Card, Header } from "@/components/Content";
-import FilterHeader from "@/components/FilterHeader";
-import { IsLoadingSkeleton } from "@/components/IsLoadingSkeleton";
 
-const BannerManagePage = () => {
+const PromotionManagePage = () => {
   // --- router
   const router = useRouter();
   const pathname = usePathname();
 
   // --- breadcrumb
-  const breadcrumb: BreadcrumbItemProps[] = [{ label: "หน้าแรก", url: "/" }, { label: "แบนเนอร์" }];
+  const breadcrumb: BreadcrumbItemProps[] = [{ label: "หน้าแรก", url: "/" }, { label: "โปรโมชัน" }];
 
   // --- pagination
   const {
@@ -69,7 +70,7 @@ const BannerManagePage = () => {
                   if (rowData?.id) {
                     destroyData.mutate(rowData?.id, {
                       onSuccess(data, variables, context) {
-                        banners?.refetch();
+                        promotions?.refetch();
                       },
                     });
                   } else {
@@ -89,19 +90,9 @@ const BannerManagePage = () => {
     return <div className="text-center">{rowIndex}</div>;
   };
 
-  const imageBodyTemplate = (rowData: any) => {
-    const images: any = rowData?.images || [];
-    return (
-      <div className="flex items-center justify-center" style={{ minWidth: "80px" }}>
-        <ImagesBasic width={80} height={80} images={images} alt="property" />
-      </div>
-    );
-  };
-
   const indexBodyTemplate = (rowData: any) => {
     return (
       <InputNumber
-        style={{ width: "100px !important" }}
         value={rowData.index}
         min={1}
         onBlur={(e: any) => {
@@ -140,33 +131,47 @@ const BannerManagePage = () => {
     );
   };
 
+  const imageBodyTemplate = (rowData: any) => {
+    const images: any = rowData?.images || [];
+    return (
+      <div className="flex items-center justify-center" style={{ minWidth: "80px" }}>
+        <ImagesBasic width={80} height={80} images={images} alt="property" />
+      </div>
+    );
+  };
+
   const columns: ColumnProps[] = [
     { field: "rowIndex", header: "#", body: rowIndexBodyTemplate },
     { field: "", header: "ภาพ", body: imageBodyTemplate },
-    { field: "delay", header: "เวลาในการแสดงผล(วินาที)" },
+    { field: "heading", header: "ชื่อโปรโมชัน" },
+    { field: "start_date", header: "วันที่เริ่มต้น", body: (rowData: any) => ConvertDays(rowData?.start_date, "dd/mm/yy", true) },
+    { field: "end_date", header: "วันที่สิ้นสุด", body: (rowData: any) => ConvertDays(rowData?.end_date, "dd/mm/yy", true) },
     { field: "index", header: "ลำดับการแสดงผล", body: indexBodyTemplate },
-    { field: "delay", header: "การแสดงผล", body: displayBodyTemplate },
+    { field: "display", header: "การแสดงผล", body: displayBodyTemplate },
     { field: "action", header: "Action", alignHeader: "center", body: actionBodyTemplate },
   ];
 
-  const banners: any = useBanners({
+  // --- query data
+  const promotions: any = usePromotions({
     params: {
       page: page,
       limit: rows,
     },
   });
-  pagination.totalRecords = banners?.data?.total_item || 0;
 
-  const destroyData = useDestroyBanner();
+  pagination.totalRecords = promotions?.data?.total_item || 0;
+
+  // --- destroy
+  const destroyData = useDestroyPromotion();
 
   // --- update data
-  const updateData = useUpdateBannerSpecialCase();
+  const updateData = useUpdatePromotionSpecialCase();
 
   const updateDateFunc = (newData: any) => {
     try {
       updateData.mutate(newData, {
         onSuccess(data, variables, context) {
-          banners?.refetch();
+          promotions?.refetch();
         },
       });
     } catch (error) {
@@ -176,12 +181,13 @@ const BannerManagePage = () => {
 
   return (
     <>
-      <Header title="จัดการแบนเนอร์" breadcrumb={breadcrumb}>
+      <Header title="โปรโมชัน" breadcrumb={breadcrumb}>
         <FilterHeader filter={globalFilterValue} onFilter={onGlobalFilterChange} />
       </Header>
+
       <Card>
-        <IsLoadingSkeleton isLoading={banners?.isLoading}>
-          <DataTable value={banners?.data?.data || []} size="normal" className="text-nowrap" globalFilterFields={["index", "delay"]} filters={filters}>
+        <IsLoadingSkeleton isLoading={promotions?.isLoading}>
+          <DataTable value={promotions?.data?.data || []} className="text-nowrap" globalFilterFields={["heading", "description", "index"]} filters={filters}>
             {columns.map((item: any, idx: any) => (
               <Column key={idx} {...item} />
             ))}
@@ -193,4 +199,4 @@ const BannerManagePage = () => {
   );
 };
 
-export default BannerManagePage;
+export default PromotionManagePage;

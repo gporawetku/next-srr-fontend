@@ -41,7 +41,7 @@ const LeftSidebar = () => {
           icon: "fa-regular fa-house-blank",
           className: "font-bold",
           command: () => {
-            router.push("/");
+            router.push("/brands");
           },
         },
         {
@@ -57,7 +57,7 @@ const LeftSidebar = () => {
           icon: "fa-regular fa-coins",
           className: "font-bold",
           command: () => {
-            router.push("/");
+            router.push("/interests");
           },
         },
         {
@@ -65,7 +65,7 @@ const LeftSidebar = () => {
           icon: "fa-regular fa-bullhorn",
           className: "font-bold",
           command: () => {
-            router.push("/");
+            router.push("/promotions");
           },
         },
         {
@@ -111,7 +111,7 @@ const LeftSidebar = () => {
           icon: "fa-regular fa-user-gear",
           className: "font-bold",
           command: () => {
-            router.push("/");
+            router.push("/roles");
           },
         },
         {
@@ -119,7 +119,7 @@ const LeftSidebar = () => {
           icon: "fa-regular fa-file-shield",
           className: "font-bold",
           command: () => {
-            router.push("/");
+            router.push("/logs");
           },
         },
       ],

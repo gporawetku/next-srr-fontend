@@ -156,7 +156,7 @@ const ActivityManagePage = () => {
     { field: "end_date", header: "วันที่สิ้นสุด", filter: false, sortable: true, body: endDateBodyTemplate },
     { field: "index", header: "ลำดับการแสดงผล", filter: false, sortable: true, body: indexBodyTemplate },
     { field: "display", header: "การแสดงผล", filter: false, sortable: true, body: displayBodyTemplate },
-    { field: "action", header: "Action", filter: false, sortable: true, body: actionBodyTemplate },
+    { field: "action", header: "Action", filter: false, sortable: true, alignHeader: "center", body: actionBodyTemplate },
   ];
 
   // --- query data

@@ -1,31 +1,29 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
-import { FilterMatchMode } from "primereact/api";
 import { Column, ColumnProps } from "primereact/column";
 import { DataTable } from "primereact/datatable";
-import { InputNumber } from "primereact/inputnumber";
 import { InputSwitch } from "primereact/inputswitch";
-import { Paginator } from "primereact/paginator";
 import { useState } from "react";
+import { FilterMatchMode } from "primereact/api";
+import { Paginator } from "primereact/paginator";
+import { usePathname, useRouter } from "next/navigation";
 import { MySwal, swalErrorOption, swlPreConfirmOption } from "@/libs/utils/Swal2Config";
-import { BreadcrumbItemProps } from "@/components/contents/Breadcrumb";
 import { usePagination } from "@/hooks/usePagination";
 import ActionButton from "@/components/common/ActionButton";
 import { ImagesBasic } from "@/components/ImagesBasic";
-import { useBanners } from "@/hooks/queries/useBanner";
-import { useDestroyBanner, useUpdateBannerSpecialCase } from "@/hooks/mutates/useMutateBanner";
+import { useInterests } from "@/hooks/queries/useInterests";
+import { useDestroyInterest, useUpdateInterestSpecialCase } from "@/hooks/mutates/useMutateInterests";
 import { Card, Header } from "@/components/Content";
 import FilterHeader from "@/components/FilterHeader";
 import { IsLoadingSkeleton } from "@/components/IsLoadingSkeleton";
 
-const BannerManagePage = () => {
+const InterestManagePage = () => {
   // --- router
   const router = useRouter();
   const pathname = usePathname();
 
   // --- breadcrumb
-  const breadcrumb: BreadcrumbItemProps[] = [{ label: "หน้าแรก", url: "/" }, { label: "แบนเนอร์" }];
+  const breadcrumb = [{ label: "หน้าแรก", url: "/" }, { label: "จัดการอัตราดอกเบี้ย" }];
 
   // --- pagination
   const {
@@ -69,7 +67,7 @@ const BannerManagePage = () => {
                   if (rowData?.id) {
                     destroyData.mutate(rowData?.id, {
                       onSuccess(data, variables, context) {
-                        banners?.refetch();
+                        interests?.refetch();
                       },
                     });
                   } else {
@@ -87,35 +85,6 @@ const BannerManagePage = () => {
   const rowIndexBodyTemplate = (rowData: any, options: any) => {
     const rowIndex: any = (options?.rowIndex || 0) + 1 + rows * (page - 1);
     return <div className="text-center">{rowIndex}</div>;
-  };
-
-  const imageBodyTemplate = (rowData: any) => {
-    const images: any = rowData?.images || [];
-    return (
-      <div className="flex items-center justify-center" style={{ minWidth: "80px" }}>
-        <ImagesBasic width={80} height={80} images={images} alt="property" />
-      </div>
-    );
-  };
-
-  const indexBodyTemplate = (rowData: any) => {
-    return (
-      <InputNumber
-        style={{ width: "100px !important" }}
-        value={rowData.index}
-        min={1}
-        onBlur={(e: any) => {
-          const value = e.target.value || 1;
-          if (value != rowData.index) {
-            const newData: any = {
-              ...rowData,
-              index: Number(value),
-            };
-            updateDateFunc(newData);
-          }
-        }}
-      />
-    );
   };
 
   const displayBodyTemplate = (rowData: any) => {
@@ -140,33 +109,37 @@ const BannerManagePage = () => {
     );
   };
 
+  const imageBodyTemplate = (rowData: any) => {
+    const images: any = rowData?.images || [];
+    return (
+      <div className="flex items-center justify-center" style={{ minWidth: "80px" }}>
+        <ImagesBasic width={80} height={80} images={images} alt="property" />
+      </div>
+    );
+  };
+
   const columns: ColumnProps[] = [
     { field: "rowIndex", header: "#", body: rowIndexBodyTemplate },
     { field: "", header: "ภาพ", body: imageBodyTemplate },
-    { field: "delay", header: "เวลาในการแสดงผล(วินาที)" },
-    { field: "index", header: "ลำดับการแสดงผล", body: indexBodyTemplate },
-    { field: "delay", header: "การแสดงผล", body: displayBodyTemplate },
+    { field: "bank_name", header: "ชื่อธนาคาร" },
+    { field: "interest_rate", header: "อัตราดอกเบี้ย (ต่อปี)" },
+    { field: "display", header: "การแสดงผล", body: displayBodyTemplate },
     { field: "action", header: "Action", alignHeader: "center", body: actionBodyTemplate },
   ];
 
-  const banners: any = useBanners({
-    params: {
-      page: page,
-      limit: rows,
-    },
-  });
-  pagination.totalRecords = banners?.data?.total_item || 0;
+  // --- query data
+  const interests = useInterests();
+  pagination.totalRecords = interests?.data?.total_item || 0;
 
-  const destroyData = useDestroyBanner();
+  const destroyData = useDestroyInterest();
 
   // --- update data
-  const updateData = useUpdateBannerSpecialCase();
-
+  const updateData = useUpdateInterestSpecialCase();
   const updateDateFunc = (newData: any) => {
     try {
       updateData.mutate(newData, {
         onSuccess(data, variables, context) {
-          banners?.refetch();
+          interests?.refetch();
         },
       });
     } catch (error) {
@@ -176,12 +149,13 @@ const BannerManagePage = () => {
 
   return (
     <>
-      <Header title="จัดการแบนเนอร์" breadcrumb={breadcrumb}>
+      <Header title="จัดการอัตราดอกเบี้ย" breadcrumb={breadcrumb}>
         <FilterHeader filter={globalFilterValue} onFilter={onGlobalFilterChange} />
       </Header>
+
       <Card>
-        <IsLoadingSkeleton isLoading={banners?.isLoading}>
-          <DataTable value={banners?.data?.data || []} size="normal" className="text-nowrap" globalFilterFields={["index", "delay"]} filters={filters}>
+        <IsLoadingSkeleton isLoading={interests?.isLoading}>
+          <DataTable value={interests?.data?.data || []} size="normal" className="text-nowrap" globalFilterFields={["bank_name", "interest_rate", "note", "status_project"]} filters={filters}>
             {columns.map((item: any, idx: any) => (
               <Column key={idx} {...item} />
             ))}
@@ -193,4 +167,4 @@ const BannerManagePage = () => {
   );
 };
 
-export default BannerManagePage;
+export default InterestManagePage;

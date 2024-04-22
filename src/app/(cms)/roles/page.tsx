@@ -4,7 +4,6 @@ import { usePathname, useRouter } from "next/navigation";
 import { FilterMatchMode } from "primereact/api";
 import { Column, ColumnProps } from "primereact/column";
 import { DataTable } from "primereact/datatable";
-import { InputNumber } from "primereact/inputnumber";
 import { InputSwitch } from "primereact/inputswitch";
 import { Paginator } from "primereact/paginator";
 import { useState } from "react";
@@ -12,20 +11,20 @@ import { MySwal, swalErrorOption, swlPreConfirmOption } from "@/libs/utils/Swal2
 import { BreadcrumbItemProps } from "@/components/contents/Breadcrumb";
 import { usePagination } from "@/hooks/usePagination";
 import ActionButton from "@/components/common/ActionButton";
-import { ImagesBasic } from "@/components/ImagesBasic";
-import { useBanners } from "@/hooks/queries/useBanner";
-import { useDestroyBanner, useUpdateBannerSpecialCase } from "@/hooks/mutates/useMutateBanner";
+import rolesConsts from "@/data/rolesConsts";
+import { useUsers } from "@/hooks/queries/useUser";
+import { useDestroyUser, useUpdateUserSpecialCase } from "@/hooks/mutates/useMutateUpdate";
 import { Card, Header } from "@/components/Content";
 import FilterHeader from "@/components/FilterHeader";
 import { IsLoadingSkeleton } from "@/components/IsLoadingSkeleton";
 
-const BannerManagePage = () => {
+const RoleManagePage = () => {
   // --- router
   const router = useRouter();
   const pathname = usePathname();
 
   // --- breadcrumb
-  const breadcrumb: BreadcrumbItemProps[] = [{ label: "หน้าแรก", url: "/" }, { label: "แบนเนอร์" }];
+  const breadcrumb: BreadcrumbItemProps[] = [{ label: "หน้าแรก", url: "/" }, { label: "สิทธิ์ผู้ใช้งาน" }];
 
   // --- pagination
   const {
@@ -69,7 +68,7 @@ const BannerManagePage = () => {
                   if (rowData?.id) {
                     destroyData.mutate(rowData?.id, {
                       onSuccess(data, variables, context) {
-                        banners?.refetch();
+                        users?.refetch();
                       },
                     });
                   } else {
@@ -87,35 +86,6 @@ const BannerManagePage = () => {
   const rowIndexBodyTemplate = (rowData: any, options: any) => {
     const rowIndex: any = (options?.rowIndex || 0) + 1 + rows * (page - 1);
     return <div className="text-center">{rowIndex}</div>;
-  };
-
-  const imageBodyTemplate = (rowData: any) => {
-    const images: any = rowData?.images || [];
-    return (
-      <div className="flex items-center justify-center" style={{ minWidth: "80px" }}>
-        <ImagesBasic width={80} height={80} images={images} alt="property" />
-      </div>
-    );
-  };
-
-  const indexBodyTemplate = (rowData: any) => {
-    return (
-      <InputNumber
-        style={{ width: "100px !important" }}
-        value={rowData.index}
-        min={1}
-        onBlur={(e: any) => {
-          const value = e.target.value || 1;
-          if (value != rowData.index) {
-            const newData: any = {
-              ...rowData,
-              index: Number(value),
-            };
-            updateDateFunc(newData);
-          }
-        }}
-      />
-    );
   };
 
   const displayBodyTemplate = (rowData: any) => {
@@ -140,33 +110,42 @@ const BannerManagePage = () => {
     );
   };
 
+  const rolesBodyTemplate = (rowData: any) => {
+    const rolesLists = rolesConsts?.roles || [];
+    const roles: any = rowData?.roles?.map((val: any) => rolesLists?.find((role: any) => role?.id == val?.role_id)?.label || "")?.join(", ");
+    rowData.rolesStr = roles || "";
+    return roles || "";
+  };
+
   const columns: ColumnProps[] = [
     { field: "rowIndex", header: "#", body: rowIndexBodyTemplate },
-    { field: "", header: "ภาพ", body: imageBodyTemplate },
-    { field: "delay", header: "เวลาในการแสดงผล(วินาที)" },
-    { field: "index", header: "ลำดับการแสดงผล", body: indexBodyTemplate },
-    { field: "delay", header: "การแสดงผล", body: displayBodyTemplate },
+    { field: "name", header: "ชื่อ" },
+    { field: "tel", header: "เบอร์โทรศัพท์" },
+    { field: "roles", header: "สิทธิ์", body: rolesBodyTemplate },
+    { field: "display", header: "การแสดงผล", body: displayBodyTemplate },
     { field: "action", header: "Action", alignHeader: "center", body: actionBodyTemplate },
   ];
 
-  const banners: any = useBanners({
+  // --- query data
+  const users: any = useUsers({
     params: {
       page: page,
       limit: rows,
     },
   });
-  pagination.totalRecords = banners?.data?.total_item || 0;
 
-  const destroyData = useDestroyBanner();
+  pagination.totalRecords = users?.data?.total_item || 0;
+
+  const destroyData = useDestroyUser();
 
   // --- update data
-  const updateData = useUpdateBannerSpecialCase();
+  const updateData = useUpdateUserSpecialCase();
 
   const updateDateFunc = (newData: any) => {
     try {
       updateData.mutate(newData, {
         onSuccess(data, variables, context) {
-          banners?.refetch();
+          users?.refetch();
         },
       });
     } catch (error) {
@@ -176,12 +155,13 @@ const BannerManagePage = () => {
 
   return (
     <>
-      <Header title="จัดการแบนเนอร์" breadcrumb={breadcrumb}>
+      <Header title="จัดการสิทธิ์ผู้ใช้งาน" breadcrumb={breadcrumb}>
         <FilterHeader filter={globalFilterValue} onFilter={onGlobalFilterChange} />
       </Header>
+
       <Card>
-        <IsLoadingSkeleton isLoading={banners?.isLoading}>
-          <DataTable value={banners?.data?.data || []} size="normal" className="text-nowrap" globalFilterFields={["index", "delay"]} filters={filters}>
+        <IsLoadingSkeleton isLoading={users?.isLoading}>
+          <DataTable value={users?.data?.data || []} size="normal" className="text-nowrap" globalFilterFields={["name", "tel", "roles"]} filters={filters}>
             {columns.map((item: any, idx: any) => (
               <Column key={idx} {...item} />
             ))}
@@ -193,4 +173,4 @@ const BannerManagePage = () => {
   );
 };
 
-export default BannerManagePage;
+export default RoleManagePage;

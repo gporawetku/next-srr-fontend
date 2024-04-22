@@ -1,5 +1,14 @@
 "use client";
 
+import ActionButton from "@/components/common/ActionButton";
+import { Card, Header } from "@/components/Content";
+import { BreadcrumbItemProps } from "@/components/contents/Breadcrumb";
+import FilterHeader from "@/components/FilterHeader";
+import { ImagesBasic } from "@/components/ImagesBasic";
+import { useDestroyBrand, useUpdateBrandSpecialCase } from "@/hooks/mutates/useMutateBrand";
+import { useBrands } from "@/hooks/queries/useBrand";
+import { usePagination } from "@/hooks/usePagination";
+import { MySwal, swalErrorOption, swlPreConfirmOption } from "@/libs/utils/Swal2Config";
 import { usePathname, useRouter } from "next/navigation";
 import { FilterMatchMode } from "primereact/api";
 import { Column, ColumnProps } from "primereact/column";
@@ -8,26 +17,15 @@ import { InputNumber } from "primereact/inputnumber";
 import { InputSwitch } from "primereact/inputswitch";
 import { Paginator } from "primereact/paginator";
 import { useState } from "react";
-import { MySwal, swalErrorOption, swlPreConfirmOption } from "@/libs/utils/Swal2Config";
-import { BreadcrumbItemProps } from "@/components/contents/Breadcrumb";
-import { usePagination } from "@/hooks/usePagination";
-import ActionButton from "@/components/common/ActionButton";
-import { ImagesBasic } from "@/components/ImagesBasic";
-import { useBanners } from "@/hooks/queries/useBanner";
-import { useDestroyBanner, useUpdateBannerSpecialCase } from "@/hooks/mutates/useMutateBanner";
-import { Card, Header } from "@/components/Content";
-import FilterHeader from "@/components/FilterHeader";
-import { IsLoadingSkeleton } from "@/components/IsLoadingSkeleton";
 
-const BannerManagePage = () => {
+const BrandManagePage = () => {
   // --- router
   const router = useRouter();
   const pathname = usePathname();
 
   // --- breadcrumb
-  const breadcrumb: BreadcrumbItemProps[] = [{ label: "หน้าแรก", url: "/" }, { label: "แบนเนอร์" }];
+  const breadcrumb: BreadcrumbItemProps[] = [{ label: "หน้าแรก", url: "/" }, { label: "แบรนด์ในเครือ" }];
 
-  // --- pagination
   const {
     data: pagination,
     data: { rows, page },
@@ -36,7 +34,6 @@ const BannerManagePage = () => {
   // --- filter
   const [filters, setFilters] = useState({ global: { value: null, matchMode: FilterMatchMode.CONTAINS } });
   const [globalFilterValue, setGlobalFilterValue] = useState("");
-
   const onGlobalFilterChange = (e: any) => {
     const value: any = e.target.value;
     let _filters: any = { ...filters };
@@ -69,7 +66,7 @@ const BannerManagePage = () => {
                   if (rowData?.id) {
                     destroyData.mutate(rowData?.id, {
                       onSuccess(data, variables, context) {
-                        banners?.refetch();
+                        brands?.refetch();
                       },
                     });
                   } else {
@@ -101,7 +98,6 @@ const BannerManagePage = () => {
   const indexBodyTemplate = (rowData: any) => {
     return (
       <InputNumber
-        style={{ width: "100px !important" }}
         value={rowData.index}
         min={1}
         onBlur={(e: any) => {
@@ -142,31 +138,32 @@ const BannerManagePage = () => {
 
   const columns: ColumnProps[] = [
     { field: "rowIndex", header: "#", body: rowIndexBodyTemplate },
-    { field: "", header: "ภาพ", body: imageBodyTemplate },
-    { field: "delay", header: "เวลาในการแสดงผล(วินาที)" },
+    { field: "", header: "ภาพ", body: imageBodyTemplate, style: { width: "200px" } },
+    { field: "name", header: "ชื่อแบรนด์", style: { width: "200px" } },
     { field: "index", header: "ลำดับการแสดงผล", body: indexBodyTemplate },
-    { field: "delay", header: "การแสดงผล", body: displayBodyTemplate },
+    { field: "", header: "การแสดงผล", body: displayBodyTemplate, style: { width: "200px" } },
     { field: "action", header: "Action", alignHeader: "center", body: actionBodyTemplate },
   ];
 
-  const banners: any = useBanners({
+  // --- query data
+  const brands: any = useBrands({
     params: {
       page: page,
       limit: rows,
     },
   });
-  pagination.totalRecords = banners?.data?.total_item || 0;
+  pagination.totalRecords = brands?.data?.total_item || 0;
 
-  const destroyData = useDestroyBanner();
+  const destroyData = useDestroyBrand();
 
   // --- update data
-  const updateData = useUpdateBannerSpecialCase();
+  const updateData = useUpdateBrandSpecialCase();
 
   const updateDateFunc = (newData: any) => {
     try {
       updateData.mutate(newData, {
         onSuccess(data, variables, context) {
-          banners?.refetch();
+          brands?.refetch();
         },
       });
     } catch (error) {
@@ -176,21 +173,20 @@ const BannerManagePage = () => {
 
   return (
     <>
-      <Header title="จัดการแบนเนอร์" breadcrumb={breadcrumb}>
+      <Header title="จัดการโลโก้" breadcrumb={breadcrumb}>
         <FilterHeader filter={globalFilterValue} onFilter={onGlobalFilterChange} />
       </Header>
+
       <Card>
-        <IsLoadingSkeleton isLoading={banners?.isLoading}>
-          <DataTable value={banners?.data?.data || []} size="normal" className="text-nowrap" globalFilterFields={["index", "delay"]} filters={filters}>
-            {columns.map((item: any, idx: any) => (
-              <Column key={idx} {...item} />
-            ))}
-          </DataTable>
+        <DataTable value={brands?.data?.data || []} className="text-nowrap" globalFilterFields={["index", "name"]} filters={filters}>
+          {columns.map((item: any, idx: any) => (
+            <Column key={idx} {...item} />
+          ))}
           <Paginator {...pagination} rowsPerPageOptions={[5, 10, 25, 50]} />
-        </IsLoadingSkeleton>
+        </DataTable>
       </Card>
     </>
   );
 };
 
-export default BannerManagePage;
+export default BrandManagePage;
