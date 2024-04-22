@@ -71,14 +71,14 @@ export default function InputFormBrand({ onClose, id, initialData }: InputFormBr
         if (id) {
           update.mutate(payload, {
             onSuccess: (response) => {
-              router.push("/admin/brands");
+              router.push("/brands");
               onClose();
             },
           });
         } else {
           create.mutate(payload, {
             onSuccess: (response) => {
-              router.push("/admin/brands");
+              router.push("/brands");
               onClose();
             },
           });

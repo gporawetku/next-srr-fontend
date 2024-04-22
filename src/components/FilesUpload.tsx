@@ -527,7 +527,7 @@ const PhotoFieldArrayUpload = ({ index, list, destination, update, limitSize = 2
   return (
     <>
       <div className="profile-box relativeflex flex-col items-center">
-        <div className="relative overflow-hidden">
+        <div className="relative overflow-hidden mb-2">
           <div className="file-upload-image-box">
             {image && (
               <>

@@ -128,7 +128,13 @@ const InterestManagePage = () => {
   ];
 
   // --- query data
-  const interests = useInterests();
+  const interests = useInterests({
+    params: {
+      page: page,
+      limit: rows,
+    },
+  });
+  
   pagination.totalRecords = interests?.data?.total_item || 0;
 
   const destroyData = useDestroyInterest();

@@ -75,14 +75,14 @@ export default function InputFormBanner({ onClose, id, initialData }: InputFormB
         if (id) {
           update.mutate(payload, {
             onSuccess: (response) => {
-              router.push("/admin/banners");
+              router.push("/banners");
               onClose();
             },
           });
         } else {
           create.mutate(payload, {
             onSuccess: (response) => {
-              router.push("/admin/banners");
+              router.push("/banners");
               onClose();
             },
           });

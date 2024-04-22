@@ -72,14 +72,14 @@ const InputFormActivity = ({ id, initialData }: InputFormActivityProps) => {
               console.log("edit");
               updateData.mutate(newData, {
                 onSuccess(data, variables, context) {
-                  router.push("/admin/activities");
+                  router.push("/activities");
                 },
               });
             } else {
               console.log("create");
               createData.mutate(newData, {
                 onSuccess(data, variables, context) {
-                  router.push("/admin/activities");
+                  router.push("/activities");
                 },
               });
             }

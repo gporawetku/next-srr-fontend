@@ -98,14 +98,14 @@ const InputFormRole = ({ id, initialData }: InputFormRoleProps) => {
               console.log("edit");
               updateData.mutate(newData, {
                 onSuccess(data, variables, context) {
-                  router.push("/admin/roles");
+                  router.push("/roles");
                 },
               });
             } else {
               console.log("create");
               createData.mutate(newData, {
                 onSuccess(data, variables, context) {
-                  router.push("/admin/roles");
+                  router.push("/roles");
                 },
               });
             }

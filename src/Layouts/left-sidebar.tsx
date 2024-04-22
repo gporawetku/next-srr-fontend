@@ -49,7 +49,7 @@ const LeftSidebar = () => {
           icon: "fa-sharp fa-regular fa-house-building",
           className: "font-bold",
           command: () => {
-            router.push("/");
+            router.push("/projects");
           },
         },
         {

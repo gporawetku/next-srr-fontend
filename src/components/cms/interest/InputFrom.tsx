@@ -80,14 +80,14 @@ const InputFormInterest = ({ id, initialData }: InputFormInterestProps) => {
               console.log("edit");
               updateData.mutate(newData, {
                 onSuccess(data, variables, context) {
-                  router.push("/admin/interest");
+                  router.push("/interests");
                 },
               });
             } else {
               console.log("create");
               createData.mutate(newData, {
                 onSuccess(data, variables, context) {
-                  router.push("/admin/interest");
+                  router.push("/interests");
                 },
               });
             }

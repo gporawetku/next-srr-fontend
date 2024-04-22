@@ -15,6 +15,7 @@ import { useStorePromotion, useUpdatePromotion } from "@/hooks/mutates/useMutate
 import { InputField } from "@/components/Content";
 import { PhotoUpload } from "@/components/FilesUpload";
 import { IsLoadingDropdow } from "@/components/IsLoadingSkeleton";
+import { Button } from "primereact/button";
 
 interface InputFormPromotionProps {
   id?: any;
@@ -124,14 +125,14 @@ const InputFormPromotion = ({ id, initialData }: InputFormPromotionProps) => {
               console.log("edit");
               updateData.mutate(newData, {
                 onSuccess(data, variables, context) {
-                  router.push("/admin/promotions");
+                  router.push("/promotions");
                 },
               });
             } else {
               console.log("create");
               createData.mutate(newData, {
                 onSuccess(data, variables, context) {
-                  router.push("/admin/promotions");
+                  router.push("/promotions");
                 },
               });
             }
@@ -168,13 +169,13 @@ const InputFormPromotion = ({ id, initialData }: InputFormPromotionProps) => {
           </div>
           <div className="col-span-12 md:col-span-6">
             <strong>
-              ภาพประกอบโครงการ Size S<span className="text-red-500">*</span>
+              ภาพประกอบโครงการ Size S <span className="text-red-500">*</span>
             </strong>
             <PhotoUpload oldData={imageS} setData={setImageS} destination={"promotions"} limitSize={10} limitPixel="240x260" />
           </div>
           <div className="col-span-12 md:col-span-6">
             <strong>
-              ภาพประกอบโครงการ Size L<span className="text-red-500">*</span>
+              ภาพประกอบโครงการ Size L <span className="text-red-500">*</span>
             </strong>
             <PhotoUpload oldData={imageL} setData={setImageL} destination={"promotions"} limitSize={10} limitPixel="570x260" />
           </div>
@@ -193,7 +194,7 @@ const InputFormPromotion = ({ id, initialData }: InputFormPromotionProps) => {
             <table style={{ width: "100%" }}>
               <thead>
                 <tr>
-                  <th style={{ width: "95%" }}>รายการฟรี</th>
+                  <th style={{ width: "95%", textAlign: "start" }}>รายการฟรี</th>
                   <th style={{ width: "5%" }}></th>
                 </tr>
               </thead>
@@ -211,9 +212,9 @@ const InputFormPromotion = ({ id, initialData }: InputFormPromotionProps) => {
                     </td>
                     <td className="text-center">
                       {index == 0 ? (
-                        <button
+                        <Button
                           type="button"
-                          className="btn text-white bg-info"
+                          severity="info"
                           onClick={() => {
                             if (freeItemsFields?.length < 6) {
                               freeItemsAppend({
@@ -223,17 +224,17 @@ const InputFormPromotion = ({ id, initialData }: InputFormPromotionProps) => {
                           }}
                         >
                           <i className="fa-regular fa-circle-plus"></i>
-                        </button>
+                        </Button>
                       ) : (
-                        <button
+                        <Button
                           type="button"
-                          className="btn text-danger bg-white border border-danger"
+                          severity="danger"
                           onClick={() => {
                             freeItemsRemove(item.id);
                           }}
                         >
                           <i className="fa-solid fa-trash-can"></i>
-                        </button>
+                        </Button>
                       )}
                     </td>
                   </tr>
@@ -281,7 +282,7 @@ const InputFormPromotion = ({ id, initialData }: InputFormPromotionProps) => {
               )}
             />
           </div>
-          <div className="col-md-12 mb-2">
+          <div className="col-span-12">
             <Controller
               control={control}
               name="house_models"
@@ -307,20 +308,19 @@ const InputFormPromotion = ({ id, initialData }: InputFormPromotionProps) => {
               }}
             />
           </div>
-          <div className="col-lg-12 d-flex gap-2 justify-content-end mt-2">
-            <div className="d-flex flex-row-reverse gap-2 w-50">
-              <button type="submit" className="btn btn-lg btn-green w-100">
-                บันทึก
-              </button>
-              <button
+
+          <div className="col-span-12 flex justify-end">
+            <div className="flex gap-2">
+              <Button
+                className="w-60"
                 type="button"
-                className="btn btn-lg btn-secondary font-white w-100"
+                severity="secondary"
+                label="ยกเลิก"
                 onClick={() => {
                   router.back();
                 }}
-              >
-                ยกเลิก
-              </button>
+              />
+              <Button className="w-60" type="submit" severity="success" label="บันทึก" />
             </div>
           </div>
         </div>
