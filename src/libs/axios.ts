@@ -1,5 +1,5 @@
 import Axios from "axios";
-// import { getSession, signOut } from "next-auth/react";
+import { getSession, signOut } from "next-auth/react";
 
 const createAxiosInstance = (baseURL: any) => {
   const instance = Axios.create({
