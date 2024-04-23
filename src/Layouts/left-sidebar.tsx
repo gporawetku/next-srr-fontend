@@ -81,7 +81,7 @@ const LeftSidebar = () => {
           icon: "fa-sharp fa-regular fa-user-tie",
           className: "font-bold",
           command: () => {
-            router.push("/");
+            router.push("/jobs");
           },
         },
         {
@@ -89,7 +89,7 @@ const LeftSidebar = () => {
           icon: "fa-sharp fa-regular fa-browser",
           className: "font-bold",
           command: () => {
-            router.push("/");
+            router.push("/setting-general");
           },
         },
       ],
@@ -103,7 +103,7 @@ const LeftSidebar = () => {
           icon: "fa-regular fa-globe",
           className: "font-bold",
           command: () => {
-            router.push("/");
+            router.push("/seo");
           },
         },
         {
