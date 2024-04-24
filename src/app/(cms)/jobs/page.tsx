@@ -16,6 +16,7 @@ import { useDestroyJob, useUpdateJobSpecialCase } from "@/hooks/mutates/useMutat
 import { Card, Header } from "@/components/Content";
 import FilterHeader from "@/components/FilterHeader";
 import { IsLoadingSkeleton } from "@/components/IsLoadingSkeleton";
+import { classNames } from "primereact/utils";
 
 const JobManagePage = () => {
   // --- router
@@ -59,6 +60,13 @@ const JobManagePage = () => {
         onClick={(e) => {
           const newDisplay = display === "published" ? "unpublished" : "published";
           updateDateFunc(jobId, newDisplay);
+        }}
+        pt={{
+          slider: ({ props }: any) => ({
+            className: classNames({
+              "bg-green-500 before:transform before:translate-x-5": props.checked,
+            }),
+          }),
         }}
       />
     );

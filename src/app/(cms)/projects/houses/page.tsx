@@ -18,6 +18,7 @@ import { useDestroyHouseModel, useUpdateHouseModelSpecialCase } from "@/hooks/mu
 import { Card, Header } from "@/components/Content";
 import { IsLoadingSkeleton } from "@/components/IsLoadingSkeleton";
 import ProjectHouseModelFilterHeader from "@/components/cms/projects/houseModels/FilterHeader";
+import { classNames } from "primereact/utils";
 
 const ProjectHouseManagePage = () => {
   // --- router
@@ -100,6 +101,13 @@ const ProjectHouseManagePage = () => {
             display: display,
           };
           updateDateFunc(newData);
+        }}
+        pt={{
+          slider: ({ props }: any) => ({
+            className: classNames({
+              "bg-green-500 before:transform before:translate-x-5": props.checked,
+            }),
+          }),
         }}
       />
     );

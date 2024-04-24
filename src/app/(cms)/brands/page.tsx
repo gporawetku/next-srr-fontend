@@ -16,6 +16,7 @@ import { DataTable } from "primereact/datatable";
 import { InputNumber } from "primereact/inputnumber";
 import { InputSwitch } from "primereact/inputswitch";
 import { Paginator } from "primereact/paginator";
+import { classNames } from "primereact/utils";
 import { useState } from "react";
 
 const BrandManagePage = () => {
@@ -131,6 +132,13 @@ const BrandManagePage = () => {
             display: display,
           };
           updateDateFunc(newData);
+        }}
+        pt={{
+          slider: ({ props }: any) => ({
+            className: classNames({
+              "bg-green-500 before:transform before:translate-x-5": props.checked,
+            }),
+          }),
         }}
       />
     );

@@ -19,6 +19,7 @@ import { useActivities } from "@/hooks/queries/useActivity";
 import { useDestroyActivitie, useUpdateActivitieSpecialCase } from "@/hooks/mutates/useMutateActivity";
 import { IsLoadingSkeleton } from "@/components/IsLoadingSkeleton";
 import FilterHeader from "@/components/FilterHeader";
+import { classNames } from "primereact/utils";
 
 const ActivityManagePage = () => {
   // --- router
@@ -98,6 +99,13 @@ const ActivityManagePage = () => {
             display: display,
           };
           updateDateFunc(newData);
+        }}
+        pt={{
+          slider: ({ props }: any) => ({
+            className: classNames({
+              "bg-green-500 before:transform before:translate-x-5": props.checked,
+            }),
+          }),
         }}
       />
     );

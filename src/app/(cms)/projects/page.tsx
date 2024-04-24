@@ -20,6 +20,7 @@ import { useDestroyProject, useUpdateProjectSpecialCase } from "@/hooks/mutates/
 import { Card, Header } from "@/components/Content";
 import FilterHeader from "@/components/FilterHeader";
 import { IsLoadingSkeleton } from "@/components/IsLoadingSkeleton";
+import { classNames } from "primereact/utils";
 
 const ProjectManagePage = () => {
   // --- router
@@ -165,6 +166,13 @@ const ProjectManagePage = () => {
             display: display,
           };
           updateDateFunc(newData);
+        }}
+        pt={{
+          slider: ({ props }: any) => ({
+            className: classNames({
+              "bg-green-500 before:transform before:translate-x-5": props.checked,
+            }),
+          }),
         }}
       />
     );

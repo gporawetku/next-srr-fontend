@@ -4,7 +4,7 @@ import { Card, Header } from "@/components/Content";
 import { IsLoadingSkeleton } from "@/components/IsLoadingSkeleton";
 import { useLogs } from "@/hooks/queries/useLog";
 import { usePagination } from "@/hooks/usePagination";
-import { ConvertDays } from "@/libs/utils/ConvertDay";
+import { ConvertDays2 } from "@/libs/utils/ConvertDay";
 import { Column, ColumnProps } from "primereact/column";
 import { DataTable } from "primereact/datatable";
 
@@ -21,7 +21,7 @@ const LogManagePage = () => {
   // --- columns
   const convertDayBodyTemplate = (rowData: any) => {
     let date: any = rowData?.created_at;
-    return ConvertDays(date, "dd/mm/yy h:m:s");
+    return ConvertDays2(date, "dd/mm/yy h:m:s");
   };
 
   const rowIndexBodyTemplate = (rowData: any, options: any) => {

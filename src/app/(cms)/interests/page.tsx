@@ -16,6 +16,7 @@ import { useDestroyInterest, useUpdateInterestSpecialCase } from "@/hooks/mutate
 import { Card, Header } from "@/components/Content";
 import FilterHeader from "@/components/FilterHeader";
 import { IsLoadingSkeleton } from "@/components/IsLoadingSkeleton";
+import { classNames } from "primereact/utils";
 
 const InterestManagePage = () => {
   // --- router
@@ -105,6 +106,13 @@ const InterestManagePage = () => {
           };
           updateDateFunc(newData);
         }}
+        pt={{
+          slider: ({ props }: any) => ({
+            className: classNames({
+              "bg-green-500 before:transform before:translate-x-5": props.checked,
+            }),
+          }),
+        }}
       />
     );
   };
@@ -134,7 +142,7 @@ const InterestManagePage = () => {
       limit: rows,
     },
   });
-  
+
   pagination.totalRecords = interests?.data?.total_item || 0;
 
   const destroyData = useDestroyInterest();
