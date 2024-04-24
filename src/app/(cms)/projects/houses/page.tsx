@@ -157,7 +157,7 @@ const ProjectHouseManagePage = () => {
     { field: "projectName", header: "ชื่อโครงการ" },
     { field: "index", header: "ลำดับการแสดงผล", body: indexBodyTemplate },
     { field: "display", header: "การแสดงผล", body: displayBodyTemplate },
-    { field: "action", header: "Action", body: actionBodyTemplate },
+    { field: "action", header: "Action", alignHeader: "center", body: actionBodyTemplate },
   ];
 
   // --- query data
