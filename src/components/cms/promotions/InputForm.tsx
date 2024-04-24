@@ -230,7 +230,7 @@ const InputFormPromotion = ({ id, initialData }: InputFormPromotionProps) => {
                           type="button"
                           severity="danger"
                           onClick={() => {
-                            freeItemsRemove(item.id);
+                            freeItemsRemove(index);
                           }}
                         >
                           <i className="fa-solid fa-trash-can"></i>

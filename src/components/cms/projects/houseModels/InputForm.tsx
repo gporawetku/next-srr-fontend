@@ -296,7 +296,7 @@ const InputFormProjectHouseModel = ({ id, initialData }: InputFormProjectHouseMo
                             type="button"
                             severity="danger"
                             onClick={() => {
-                              typeItemsRemove(item.id);
+                              typeItemsRemove(i);
                             }}
                           >
                             <i className="fa-solid fa-trash-can"></i>

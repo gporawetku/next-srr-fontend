@@ -406,7 +406,7 @@ const InputFormProject = ({ id, initialData }: InputFormProjectProps) => {
                             type="button"
                             severity="danger"
                             onClick={() => {
-                              areaItemsRemove(item.id);
+                              areaItemsRemove(index);
                             }}
                           >
                             <i className="fa-solid fa-trash-can"></i>
@@ -474,7 +474,7 @@ const InputFormProject = ({ id, initialData }: InputFormProjectProps) => {
                             type="button"
                             severity="danger"
                             onClick={() => {
-                              facilitiesItemsRemove(item.id);
+                              facilitiesItemsRemove(index);
                             }}
                           >
                             <i className="fa-solid fa-trash-can"></i>

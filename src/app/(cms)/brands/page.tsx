@@ -190,8 +190,8 @@ const BrandManagePage = () => {
           {columns.map((item: any, idx: any) => (
             <Column key={idx} {...item} />
           ))}
-          <Paginator {...pagination} rowsPerPageOptions={[5, 10, 25, 50]} />
         </DataTable>
+        <Paginator {...pagination} rowsPerPageOptions={[5, 10, 25, 50]} />
       </Card>
     </>
   );
