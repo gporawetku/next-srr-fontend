@@ -1,12 +1,14 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { ActiveMenu } from "@/libs/utils/ActiveMenu";
+import { usePathname, useRouter } from "next/navigation";
 import { Menu } from "primereact/menu";
 import { MenuItem } from "primereact/menuitem";
 
 const LeftSidebar = () => {
   // --- router
   const router = useRouter();
+  const pathName = usePathname();
 
   // --- items
   const items: MenuItem[] = [
@@ -17,7 +19,7 @@ const LeftSidebar = () => {
         {
           label: "แดชบอร์ด",
           icon: "fa-regular fa-gauge-simple font-bold",
-          className: "font-bold",
+          className: `font-bold rounded-md ${ActiveMenu(pathName, "dashboard")}`,
           command: () => {
             router.push("/");
           },
@@ -31,7 +33,7 @@ const LeftSidebar = () => {
         {
           label: "แบนเนอร์",
           icon: "fa-regular fa-images",
-          className: "font-bold",
+          className: `font-bold rounded-md ${ActiveMenu(pathName, "/banners")}`,
           command: () => {
             router.push("/banners");
           },
@@ -39,7 +41,7 @@ const LeftSidebar = () => {
         {
           label: "แบรนด์สิรารมย์",
           icon: "fa-regular fa-house-blank",
-          className: "font-bold",
+          className: `font-bold rounded-md ${ActiveMenu(pathName, "/brands")}`,
           command: () => {
             router.push("/brands");
           },
@@ -47,7 +49,7 @@ const LeftSidebar = () => {
         {
           label: "โครงการและแบบบ้าน",
           icon: "fa-sharp fa-regular fa-house-building",
-          className: "font-bold",
+          className: `font-bold rounded-md ${ActiveMenu(pathName, "/projects")}`,
           command: () => {
             router.push("/projects");
           },
@@ -55,7 +57,7 @@ const LeftSidebar = () => {
         {
           label: "จัดการอัตราดอกเบี้ย",
           icon: "fa-regular fa-coins",
-          className: "font-bold",
+          className: `font-bold rounded-md ${ActiveMenu(pathName, "/interests")}`,
           command: () => {
             router.push("/interests");
           },
@@ -63,7 +65,7 @@ const LeftSidebar = () => {
         {
           label: "โปรโมชัน",
           icon: "fa-regular fa-bullhorn",
-          className: "font-bold",
+          className: `font-bold rounded-md ${ActiveMenu(pathName, "/promotions")}`,
           command: () => {
             router.push("/promotions");
           },
@@ -71,7 +73,7 @@ const LeftSidebar = () => {
         {
           label: "กิจกรรมและข่าวสาร",
           icon: "fa-regular fa-newspaper",
-          className: "font-bold",
+          className: `font-bold rounded-md ${ActiveMenu(pathName, "/activities")}`,
           command: () => {
             router.push("/activities");
           },
@@ -79,7 +81,7 @@ const LeftSidebar = () => {
         {
           label: "ร่วมงานกับเรา",
           icon: "fa-sharp fa-regular fa-user-tie",
-          className: "font-bold",
+          className: `font-bold rounded-md ${ActiveMenu(pathName, "/jobs")}`,
           command: () => {
             router.push("/jobs");
           },
@@ -87,7 +89,7 @@ const LeftSidebar = () => {
         {
           label: "ข้อมูลเว็บไซต์",
           icon: "fa-sharp fa-regular fa-browser",
-          className: "font-bold",
+          className: `font-bold rounded-md ${ActiveMenu(pathName, "/setting-general")}`,
           command: () => {
             router.push("/setting-general");
           },
@@ -101,7 +103,7 @@ const LeftSidebar = () => {
         {
           label: "จัดการ SEO",
           icon: "fa-regular fa-globe",
-          className: "font-bold",
+          className: `font-bold rounded-md ${ActiveMenu(pathName, "/seo")}`,
           command: () => {
             router.push("/seo");
           },
@@ -109,7 +111,7 @@ const LeftSidebar = () => {
         {
           label: "จัดการสิทธิ์ผู้ใช้งาน",
           icon: "fa-regular fa-user-gear",
-          className: "font-bold",
+          className: `font-bold rounded-md ${ActiveMenu(pathName, "/roles")}`,
           command: () => {
             router.push("/roles");
           },
@@ -117,7 +119,7 @@ const LeftSidebar = () => {
         {
           label: "ประวัติการเข้าใช้งาน",
           icon: "fa-regular fa-file-shield",
-          className: "font-bold",
+          className: `font-bold rounded-md ${ActiveMenu(pathName, "/logs")}`,
           command: () => {
             router.push("/logs");
           },
@@ -126,7 +128,7 @@ const LeftSidebar = () => {
     },
   ];
 
-  return <Menu model={items} className="w-full h-screen" />;
+  return <Menu model={items} className="w-full h-screen p-2" style={{ border: "none" }} />;
 };
 
 export { LeftSidebar };

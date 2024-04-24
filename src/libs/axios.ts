@@ -8,11 +8,11 @@ const createAxiosInstance = (baseURL: any) => {
 
   instance.interceptors.request.use(
     async (config) => {
-      // const session: any = await getSession();
+      const session: any = await getSession();
 
-      // if (session) {
-      //   config.headers.Authorization = `Bearer ${session.accessToken}`;
-      // }
+      if (session) {
+        config.headers.Authorization = `Bearer ${session.accessToken}`;
+      }
 
       return config;
     },

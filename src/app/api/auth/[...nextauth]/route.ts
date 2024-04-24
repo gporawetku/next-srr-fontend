@@ -38,16 +38,15 @@ const handler = NextAuth({
       if (user) {
         token.accessToken = user.token.access_token;
         token.id = user.user.id;
+        token.user = user.user;
       }
-      console.log(token);
       return token;
     },
     session: async ({ session, token, user }: any) => {
       if (token) {
         session.accessToken = token.accessToken;
-        session.user.id = token.id;
+        session.user = token.user;
       }
-      console.log(session);
       return session;
     },
   },

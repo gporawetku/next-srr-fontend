@@ -14,7 +14,7 @@ export default function CMSLayout({ children }: { children: React.ReactNode }) {
             <LeftSidebar />
           </div>
           <div className="col-span-12 md:col-span-10 bg-[#F7F7F7]">
-            <div className="p-10">{children}</div>
+            <div className="p-2 md:p-10">{children}</div>
           </div>
         </div>
       </main>

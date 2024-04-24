@@ -89,3 +89,17 @@ body {
 .file-upload-btn-open:hover {
   background: #239B56;
 }
+
+
+/* --- active menu --- */
+.active-block {
+  background: black;
+}
+
+.active-block span {
+  color: white;
+}
+
+.active-block:hover span {
+  color: black;
+}

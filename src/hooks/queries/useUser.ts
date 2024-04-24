@@ -28,3 +28,12 @@ export const useUserShow = (id: any) => {
     enabled: !!id,
   });
 };
+
+export const useAvatar = (id: any) => {
+  return useQuery({
+    queryKey: ["avatar", id],
+    queryFn: () => api.users.show(id).then((response: any) => response.data),
+    staleTime: Infinity,
+    enabled: !!id,
+  });
+};

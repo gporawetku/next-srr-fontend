@@ -27,6 +27,9 @@ export default function RootLayout({
     <QueryClientProvider client={queryClient}>
       <PrimeReactProvider>
         <html lang="en">
+          <head>
+            <title>สิรารมย์</title>
+          </head>
           <body className={prompt.className}>{children}</body>
         </html>
       </PrimeReactProvider>
