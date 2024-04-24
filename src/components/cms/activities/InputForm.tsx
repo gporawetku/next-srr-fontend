@@ -58,7 +58,7 @@ const InputFormActivity = ({ id, initialData }: InputFormActivityProps) => {
       start_date: ConvertDays(data?.startDate, "yy-mm-dd") || "",
       end_date: ConvertDays(data?.endDate, "yy-mm-dd") || "",
       video_link: data?.videoLink || "",
-      display: data?.display || "",
+      display: data?.display || "published",
       images: files,
     };
 
