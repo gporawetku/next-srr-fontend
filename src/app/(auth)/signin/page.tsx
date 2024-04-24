@@ -5,6 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { classNames } from "primereact/utils";
 import { useState } from "react";
@@ -16,6 +17,7 @@ const SignIn = () => {
 
   // --- state
   const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsloading] = useState(false);
 
   // --- login
   const login = useMutation({
@@ -49,8 +51,18 @@ const SignIn = () => {
   } = useForm();
 
   const onSubmit = (data: any) => {
-    console.log(data);
-    login.mutate({ email: data.email, password: data.password });
+    setIsloading(true);
+    login.mutate(
+      { email: data.email, password: data.password },
+      {
+        onSuccess: (response) => {
+          setIsloading(false);
+        },
+        onSettled(data, error, variables, context) {
+          setIsloading(false);
+        },
+      }
+    );
   };
 
   return (
@@ -98,9 +110,7 @@ const SignIn = () => {
               </div>
               <div className="col-span-12">{errorMessage && <small className="text-red-500">{errorMessage}</small>}</div>
               <div className="col-span-12">
-                <button type="submit" className="p-2 bg-[#EF4036] text-white w-full rounded-md">
-                  Sign in
-                </button>
+                <Button type="submit" className="p-2 bg-[#EF4036] text-white w-full rounded-md border-none" label="Sign In" loading={isLoading} />
               </div>
             </div>
           </div>

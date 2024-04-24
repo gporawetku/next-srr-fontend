@@ -13,7 +13,7 @@ const LeftSidebar = () => {
   // --- items
   const items: MenuItem[] = [
     {
-      label: "หน้าหนัก",
+      label: "หน้าหลัก",
       className: "font-medium",
       items: [
         {

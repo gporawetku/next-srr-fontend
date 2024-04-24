@@ -8,6 +8,7 @@ export async function middleware(request: NextRequest) {
   });
 
   const { pathname } = request.nextUrl;
+  console.log(user)
 
   if (pathname !== "/signin" && !user?.accessToken) {
     return NextResponse.redirect(new URL("/signin", request.url));
