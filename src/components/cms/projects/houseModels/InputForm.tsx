@@ -144,14 +144,14 @@ const InputFormProjectHouseModel = ({ id, initialData }: InputFormProjectHouseMo
               console.log("edit");
               updateData.mutate(newData, {
                 onSuccess(data, variables, context) {
-                  router.push("/admin/projects/house");
+                  router.push("/projects/houses");
                 },
               });
             } else {
               console.log("create");
               createData.mutate(newData, {
                 onSuccess(data, variables, context) {
-                  router.push("/admin/projects/house");
+                  router.push("/projects/houses");
                 },
               });
             }

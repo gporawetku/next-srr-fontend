@@ -51,7 +51,6 @@ const InputFormGeneral = ({ onClose, id, initialData }: InputFormJobProps) => {
   });
 
   const onSubmit = (data: any) => {
-    console.log(data);
     let images: any = [];
 
     if (image) {
@@ -77,14 +76,12 @@ const InputFormGeneral = ({ onClose, id, initialData }: InputFormJobProps) => {
       images: images || [],
     };
 
-    console.log(payload);
-
     MySwal.fire({ ...swalQuestionOption, title: "ยืนยันที่จะบันทึกข้อมูล" }).then((response) => {
       if (response.isConfirmed) {
         if (id) {
           update.mutate(payload, {
             onSuccess: (response) => {
-              router.push("/admin/setting-general");
+              router.push("/setting-general");
               onClose();
             },
           });
