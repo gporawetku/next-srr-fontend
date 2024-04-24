@@ -39,7 +39,7 @@ const Navbar = () => {
         <>
           <Avatar size="normal" image={ConvertImages(avatar?.data?.images, 0, "/images/user.png")} shape="circle" onClick={() => setVisible(!visible)} />
           {visible && (
-            <div style={{ position: "absolute", right: 10, top: 50 }}>
+            <div style={{ position: "absolute", right: 10, top: 50, zIndex: 1000 }}>
               <div className="border p-5 rounded-md bg-white" style={{ minWidth: "250px" }}>
                 <ul>
                   <li>
@@ -54,6 +54,7 @@ const Navbar = () => {
                     <Button
                       size="small"
                       severity="danger"
+                      style={{ marginTop: "20px" }}
                       onClick={() => {
                         signOut({ callbackUrl: "/signin" });
                       }}

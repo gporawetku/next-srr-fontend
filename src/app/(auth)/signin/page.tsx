@@ -55,9 +55,9 @@ const SignIn = () => {
 
   return (
     <>
-      <div className="h-screen w-screen flex justify-center items-center">
+      <div className="h-screen w-screen flex justify-center items-center bg-[#F7F7F7]">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="border w-[80vw] md:w-[30vw] rounded-md p-10">
+          <div className="border w-[80vw] md:w-[30vw] rounded-md p-10 bg-white">
             <div className="border-b pb-2 mb-5">
               <div className="font-bold">สามารถลงชื่อเข้าใช้เฉพาะ Admin เท่านั้น!</div>
             </div>
@@ -84,7 +84,13 @@ const SignIn = () => {
                   render={({ field, fieldState }) => (
                     <>
                       <InputField name={field.name} labelName="Password" errors={errors}>
-                        <InputText type="password" id={field.name} value={field.value} onChange={(e) => field.onChange(e.target.value)} className={classNames("w-full", { "p-invalid": fieldState.error })} />
+                        <InputText
+                          type="password"
+                          id={field.name}
+                          value={field.value}
+                          onChange={(e) => field.onChange(e.target.value)}
+                          className={classNames("w-full", { "p-invalid": fieldState.error })}
+                        />
                       </InputField>
                     </>
                   )}
