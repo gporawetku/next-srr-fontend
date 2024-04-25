@@ -14,16 +14,18 @@ const handler = NextAuth({
       async authorize(credentials) {
         try {
           if (!credentials) return null;
-          const response: any = await axios.post(process.env.NEXT_PUBLIC_API_URL + "/users/signin", credentials);
-          const responseData = response?.data;
+          const response = await axios.post(process.env.NEXT_PUBLIC_API_URL + "/users/signin", credentials);
+          const user = response?.data;
 
-          if (responseData) {
-            return responseData;
+          if (user) {
+            const avatarResponse = await axios.get(process.env.NEXT_PUBLIC_API_URL + "/users/" + user.user.id);
+            user.user = avatarResponse?.data;
+            return user;
           } else {
             return null;
           }
-        } catch (errors) {
-          console.error(errors);
+        } catch (error) {
+          console.error(error);
           return null;
         }
       },

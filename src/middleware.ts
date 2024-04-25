@@ -8,7 +8,6 @@ export async function middleware(request: NextRequest) {
   });
 
   const { pathname } = request.nextUrl;
-  console.log(user)
 
   if (pathname !== "/signin" && !user?.accessToken) {
     return NextResponse.redirect(new URL("/signin", request.url));
@@ -17,6 +16,7 @@ export async function middleware(request: NextRequest) {
   if (pathname === "/signin" && !!user?.accessToken) {
     return NextResponse.redirect(new URL("/", request.url));
   }
+
 }
 
 export const config = {
