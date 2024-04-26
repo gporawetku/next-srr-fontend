@@ -9,6 +9,7 @@ import * as promotions from "./api/promotions";
 import * as logs from "./api/logs";
 import * as brands from "./api/brands";
 import * as users from "./api/users";
+import * as seo from "./api/seo";
 
 const api = {
   dataSetting,
@@ -22,6 +23,7 @@ const api = {
   logs,
   brands,
   users,
+  seo,
 };
 
 export default api;

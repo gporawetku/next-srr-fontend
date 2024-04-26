@@ -1,4 +1,6 @@
 import { InputField } from "@/components/Content";
+import { useUpdateSEO } from "@/hooks/mutates/useMutateSEO";
+import { MySwal, swalQuestionOption } from "@/libs/utils/Swal2Config";
 import { useRouter } from "next/navigation";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
@@ -6,19 +8,58 @@ import { InputTextarea } from "primereact/inputtextarea";
 import { classNames } from "primereact/utils";
 import { Controller, useForm } from "react-hook-form";
 
-const InputFormSEO = () => {
+interface InputFormSEOProps {
+  id?: any;
+  initialData?: any | null;
+}
+
+const InputFormSEO = ({ id, initialData }: InputFormSEOProps) => {
   // --- router
   const router = useRouter();
 
+  // --- initialData
+  const { ...otherData }: any = initialData || {};
+
+  // --- hook
+  const update = useUpdateSEO(id);
+
   // --- useForm
+  const defaultFormData: any = {
+    title: otherData?.title || "",
+    description: otherData?.description || "",
+    keyword: otherData?.keyword || "",
+    robot: otherData?.robot || "",
+    googleBot: otherData?.google_bot || "",
+  };
+
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: defaultFormData,
+  });
 
   const onSubmit = (data: any) => {
-    console.log(data);
+    const newData: any = {
+      title: data?.title || "",
+      description: data?.description || "",
+      keyword: data?.keyword || "",
+      robot: data?.robot || "",
+      google_bot: data?.googleBot || "",
+    };
+
+    MySwal.fire({ ...swalQuestionOption, title: "ยืนยันที่จะบันทึกข้อมูล" }).then((response) => {
+      if (response.isConfirmed) {
+        if (id) {
+          update.mutate(newData, {
+            onSuccess: (response) => {
+              router.push("/seo");
+            },
+          });
+        }
+      }
+    });
   };
 
   return (
@@ -54,10 +95,10 @@ const InputFormSEO = () => {
           <div className="col-span-12">
             <Controller
               control={control}
-              name="keywords"
-              rules={{ required: "กรุณากรอก Keywords" }}
+              name="keyword"
+              rules={{ required: "กรุณากรอก Keyword" }}
               render={({ field, fieldState }) => (
-                <InputField name={field.name} labelName="Keywords" required errors={errors}>
+                <InputField name={field.name} labelName="Keyword" required errors={errors}>
                   <InputText id={field.name} value={field.value} onChange={(e) => field.onChange(e.target.value)} className={classNames("w-full", { "p-invalid": fieldState.error })} />
                 </InputField>
               )}
@@ -92,15 +133,6 @@ const InputFormSEO = () => {
 
           <div className="col-span-12 flex justify-end">
             <div className="flex gap-2">
-              <Button
-                className="w-60"
-                type="button"
-                severity="secondary"
-                label="ยกเลิก"
-                onClick={() => {
-                  router.back();
-                }}
-              />
               <Button className="w-60" type="submit" severity="success" label="บันทึก" />
             </div>
           </div>

@@ -89,6 +89,7 @@ const InputFormGeneral = ({ onClose, id, initialData }: InputFormJobProps) => {
       }
     });
   };
+  
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -222,15 +223,6 @@ const InputFormGeneral = ({ onClose, id, initialData }: InputFormJobProps) => {
 
           <div className="col-span-12 flex justify-end">
             <div className="flex gap-2">
-              <Button
-                className="w-60"
-                type="button"
-                severity="secondary"
-                label="ยกเลิก"
-                onClick={() => {
-                  router.back();
-                }}
-              />
               <Button className="w-60" type="submit" severity="success" label="บันทึก" />
             </div>
           </div>
