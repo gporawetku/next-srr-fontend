@@ -7,6 +7,7 @@ import { FileUpload } from "primereact/fileupload";
 import { useEffect, useRef, useState } from "react";
 import { MySwal, swalErrorOption, swalSuccessOption, swlPreConfirmOption } from "@/libs/utils/Swal2Config";
 import { getPixelForStr, ImagePixles, MbtoByte } from "@/libs/utils/ImagePixels";
+import { Button } from "primereact/button";
 
 interface filesUploadProps {
   oldFiles?: any;
@@ -46,16 +47,8 @@ const FilesUpload = ({ oldFiles, setData, setRemove, destination, limitSize = 2,
   const thumbnailForType = (file: any) => {
     const fileExtension = file?.name?.split(".").pop()?.toLowerCase();
 
-    if (["jpg", "jpeg", "png", "web"].includes(fileExtension)) {
+    if (["jpg", "jpeg", "png", "webp"].includes(fileExtension)) {
       return <Image src={file?.objectURL || ""} alt="image" width={50} height={50} loading="lazy" />;
-    } else if (fileExtension === "pdf") {
-      return <i className="fa-solid fa-file-pdf text-lg"></i>;
-    } else if (["xls", "xlsx"].includes(fileExtension)) {
-      return <i className="fa-solid fa-file-excel text-lg"></i>;
-    } else if (fileExtension === "docx") {
-      return <i className="fa-solid fa-file-word text-lg"></i>;
-    } else if (fileExtension && fileExtension.startsWith("video")) {
-      return <i className="fa-solid fa-video text-lg"></i>;
     } else {
       return <i className="fa-solid fa-file text-lg"></i>;
     }
@@ -236,27 +229,27 @@ const FilesUpload = ({ oldFiles, setData, setRemove, destination, limitSize = 2,
                       </div>
                     </div>
                   </div>
-                  <div className="col-span-12 md:col-span-4">
+                  <div className="col-span-12 md:col-span-4 flex justify-end gap-1 items-center">
                     {file?.status === "completed" && (
-                      <button
+                      <Button
                         type="button"
-                        className="p-button p-component p-button-icon-only p-button-text p-button-rounded p-button-success"
+                        severity="success"
                         onClick={() => {
                           open(file?.objectURL);
                         }}
                       >
-                        <i className="pi pi-download text-success"></i>
-                      </button>
+                        <i className="fa-regular fa-eye"></i>
+                      </Button>
                     )}
-                    <button
+                    <Button
                       type="button"
-                      className="p-button p-component p-button-icon-only p-button-text p-button-rounded p-button-danger"
+                      severity="danger"
                       onClick={() => {
                         remove(file);
                       }}
                     >
-                      <i className="pi pi-times text-danger"></i>
-                    </button>
+                      <i className="fa-solid fa-trash-can"></i>
+                    </Button>
                   </div>
                 </div>
               </div>
