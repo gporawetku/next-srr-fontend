@@ -25,7 +25,7 @@ const InputFormGeneral = ({ onClose, id, initialData }: InputFormJobProps) => {
   const { images, ...otherData }: any = initialData || {};
 
   // --- state
-  const [image, setImage] = useState(images?.length == 1 ? images[1] || "" : null);
+  const [image, setImage] = useState(images?.length == 1 ? images[0] || "" : null);
 
   // --- hook
   const update = useUpdateDataSetting(id);
