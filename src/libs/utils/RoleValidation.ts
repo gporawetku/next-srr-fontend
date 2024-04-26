@@ -2,6 +2,9 @@ import rolesConsts from "@/data/rolesConsts";
 
 const RoleFilterMenu = (roles: any, menuItems: any) => {
   try {
+    if (roles?.some((role: any) => role?.role_id === 1)) {
+      return menuItems;
+    }
     const roleMenus: any[] = rolesConsts?.roleMenus || [];
     const allowedMenu: any = roleMenus?.filter((menu: any) => roles?.some((role: any) => role?.role_id === menu?.id));
 

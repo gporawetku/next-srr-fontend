@@ -23,7 +23,7 @@ export async function middleware(request: NextRequest) {
 
   const currentPath = extractFirstSegmentUrl(pathname);
 
-  if (!["/", "/signin", "/images", ""].includes(currentPath)) {
+  if (!["/", "/signin", "/images", ""].includes(currentPath) && !roles?.some((role: any) => role?.role_id === 1)) {
     const allowedPaths = roles?.reduce((acc, role) => {
       const rolePath = rolePaths?.find((r) => r?.id === role?.role_id);
       if (rolePath) acc?.push(rolePath?.path);
