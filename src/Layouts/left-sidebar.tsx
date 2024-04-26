@@ -1,17 +1,22 @@
 "use client";
 
 import { ActiveMenu } from "@/libs/utils/ActiveMenu";
+import { RoleFilterMenu } from "@/libs/utils/RoleValidation";
+import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import { Menu } from "primereact/menu";
 import { MenuItem } from "primereact/menuitem";
 
 const LeftSidebar = () => {
+  // --- session
+  const { data }: any = useSession();
+
   // --- router
   const router = useRouter();
   const pathName = usePathname();
 
   // --- items
-  const items: MenuItem[] = [
+  const items: MenuItem[] = RoleFilterMenu(data?.user?.roles || [], [
     {
       label: "หน้าหลัก",
       className: "font-medium",
@@ -126,7 +131,7 @@ const LeftSidebar = () => {
         },
       ],
     },
-  ];
+  ]);
 
   return <Menu model={items} className="w-full h-screen p-2" style={{ border: "none" }} />;
 };

@@ -16,9 +16,31 @@ const rolePaths: any[] = [
   { id: 6, path: "/jobs" },
 ];
 
+const roleMenus: any[] = [
+  { id: 1, menu: {} },
+  { id: 2, menu: { mains: ["หน้าหลัก"], items: ["แดชบอร์ด"] } },
+  {
+    id: 3,
+    menu: { mains: ["เมนูจัดการหน้าเว็บไซต์", "หน้าหลัก"], items: ["แดชบอร์ด", "โครงการและแบบบ้าน"] },
+  },
+  {
+    id: 4,
+    menu: { mains: ["หน้าหลัก", "เมนูจัดการหน้าเว็บไซต์"], items: ["แดชบอร์ด", "โปรโมชัน"] },
+  },
+  {
+    id: 5,
+    menu: { mains: ["หน้าหลัก", "เมนูจัดการหน้าเว็บไซต์"], items: ["แดชบอร์ด", "กิจกรรมและข่าวสาร"] },
+  },
+  {
+    id: 6,
+    menu: { mains: ["หน้าหลัก", "เมนูจัดการหน้าเว็บไซต์"], items: ["แดชบอร์ด", "ร่วมงานกับเรา"] },
+  },
+];
+
 const rolesConsts = {
   roles,
   rolePaths,
+  roleMenus,
 };
 
 export default rolesConsts;

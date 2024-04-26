@@ -1,4 +1,4 @@
-import { checkSubstring, extractFirstSegment } from "@/libs/utils/CheckSubstring";
+import { extractFirstSegment } from "@/libs/utils/CheckSubstring";
 
 const ActiveMenu = (pathName: any, target: any) => {
   const normalizedPath = pathName.startsWith("/") ? pathName : `/${pathName}`;

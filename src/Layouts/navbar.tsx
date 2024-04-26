@@ -13,6 +13,7 @@ import { IsLoadingCircle } from "@/components/IsLoadingSkeleton";
 import { MenuItem } from "primereact/menuitem";
 import { usePathname, useRouter } from "next/navigation";
 import { ActiveMenu } from "@/libs/utils/ActiveMenu";
+import { RoleFilterMenu } from "@/libs/utils/RoleValidation";
 
 const Navbar = () => {
   // --- session
@@ -72,7 +73,7 @@ const Navbar = () => {
   );
 
   // --- items
-  const items: MenuItem[] = [
+  const items: MenuItem[] = RoleFilterMenu(data?.user?.roles || [], [
     {
       label: "หน้าหลัก",
       className: "font-medium",
@@ -80,7 +81,7 @@ const Navbar = () => {
         {
           label: "แดชบอร์ด",
           icon: "fa-regular fa-gauge-simple font-bold",
-          className: `font-bold ${ActiveMenu(pathName, "dashboard")}`,
+          className: `font-bold rounded-md ${ActiveMenu(pathName, "dashboard")}`,
           command: () => {
             router.push("/");
           },
@@ -94,7 +95,7 @@ const Navbar = () => {
         {
           label: "แบนเนอร์",
           icon: "fa-regular fa-images",
-          className: `font-bold ${ActiveMenu(pathName, "/banners")}`,
+          className: `font-bold rounded-md ${ActiveMenu(pathName, "/banners")}`,
           command: () => {
             router.push("/banners");
           },
@@ -102,7 +103,7 @@ const Navbar = () => {
         {
           label: "แบรนด์สิรารมย์",
           icon: "fa-regular fa-house-blank",
-          className: `font-bold ${ActiveMenu(pathName, "/brands")}`,
+          className: `font-bold rounded-md ${ActiveMenu(pathName, "/brands")}`,
           command: () => {
             router.push("/brands");
           },
@@ -110,7 +111,7 @@ const Navbar = () => {
         {
           label: "โครงการและแบบบ้าน",
           icon: "fa-sharp fa-regular fa-house-building",
-          className: `font-bold ${ActiveMenu(pathName, "/projects")}`,
+          className: `font-bold rounded-md ${ActiveMenu(pathName, "/projects")}`,
           command: () => {
             router.push("/projects");
           },
@@ -118,7 +119,7 @@ const Navbar = () => {
         {
           label: "จัดการอัตราดอกเบี้ย",
           icon: "fa-regular fa-coins",
-          className: `font-bold ${ActiveMenu(pathName, "/interests")}`,
+          className: `font-bold rounded-md ${ActiveMenu(pathName, "/interests")}`,
           command: () => {
             router.push("/interests");
           },
@@ -126,7 +127,7 @@ const Navbar = () => {
         {
           label: "โปรโมชัน",
           icon: "fa-regular fa-bullhorn",
-          className: `font-bold ${ActiveMenu(pathName, "/promotions")}`,
+          className: `font-bold rounded-md ${ActiveMenu(pathName, "/promotions")}`,
           command: () => {
             router.push("/promotions");
           },
@@ -134,7 +135,7 @@ const Navbar = () => {
         {
           label: "กิจกรรมและข่าวสาร",
           icon: "fa-regular fa-newspaper",
-          className: `font-bold ${ActiveMenu(pathName, "/activities")}`,
+          className: `font-bold rounded-md ${ActiveMenu(pathName, "/activities")}`,
           command: () => {
             router.push("/activities");
           },
@@ -142,7 +143,7 @@ const Navbar = () => {
         {
           label: "ร่วมงานกับเรา",
           icon: "fa-sharp fa-regular fa-user-tie",
-          className: `font-bold ${ActiveMenu(pathName, "/jobs")}`,
+          className: `font-bold rounded-md ${ActiveMenu(pathName, "/jobs")}`,
           command: () => {
             router.push("/jobs");
           },
@@ -150,7 +151,7 @@ const Navbar = () => {
         {
           label: "ข้อมูลเว็บไซต์",
           icon: "fa-sharp fa-regular fa-browser",
-          className: `font-bold ${ActiveMenu(pathName, "/setting-general")}`,
+          className: `font-bold rounded-md ${ActiveMenu(pathName, "/setting-general")}`,
           command: () => {
             router.push("/setting-general");
           },
@@ -164,7 +165,7 @@ const Navbar = () => {
         {
           label: "จัดการ SEO",
           icon: "fa-regular fa-globe",
-          className: `font-bold ${ActiveMenu(pathName, "/seo")}`,
+          className: `font-bold rounded-md ${ActiveMenu(pathName, "/seo")}`,
           command: () => {
             router.push("/seo");
           },
@@ -172,7 +173,7 @@ const Navbar = () => {
         {
           label: "จัดการสิทธิ์ผู้ใช้งาน",
           icon: "fa-regular fa-user-gear",
-          className: `font-bold ${ActiveMenu(pathName, "/roles")}`,
+          className: `font-bold rounded-md ${ActiveMenu(pathName, "/roles")}`,
           command: () => {
             router.push("/roles");
           },
@@ -180,26 +181,24 @@ const Navbar = () => {
         {
           label: "ประวัติการเข้าใช้งาน",
           icon: "fa-regular fa-file-shield",
-          className: `font-bold ${ActiveMenu(pathName, "/logs")}`,
+          className: `font-bold rounded-md ${ActiveMenu(pathName, "/logs")}`,
           command: () => {
             router.push("/logs");
           },
         },
       ],
     },
-  ];
+  ]);
 
   // --- resize
   useEffect(() => {
-    const handleResize = () => {
+    const checkIfMobile = () => {
       setIsMobile(window.innerWidth <= 768);
     };
+    checkIfMobile();
+    window.addEventListener("resize", checkIfMobile);
 
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
+    return () => window.removeEventListener("resize", checkIfMobile);
   }, []);
 
   return <>{isMobile ? <Menubar model={items} start={start} end={end} /> : <Menubar start={start} end={end} />}</>;

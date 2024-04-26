@@ -8,4 +8,9 @@ const extractFirstSegment = (input: string) => {
   return parts.length > 1 ? parts[1] : "";
 };
 
-export { checkSubstring, extractFirstSegment };
+const extractFirstSegmentUrl = (input: string) => {
+  const segments = input.split("/").filter(Boolean);
+  return segments.length > 0 ? `/${segments[0]}` : "";
+};
+
+export { checkSubstring, extractFirstSegment, extractFirstSegmentUrl };
