@@ -140,7 +140,7 @@ const PromotionManagePage = () => {
   };
 
   const imageBodyTemplate = (rowData: any) => {
-    const images: any = rowData?.images || [];
+    const images: any = rowData?.promotion_images || [];
     return (
       <div className="flex items-center justify-center" style={{ minWidth: "80px" }}>
         <ImagesBasic width={80} height={80} images={images} alt="property" />
